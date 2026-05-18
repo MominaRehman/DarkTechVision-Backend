@@ -1,0 +1,3 @@
+- FastAPI backend with GNN and ViT models
+- Tor integration for .onion scraping
+- REST API for threat classification
