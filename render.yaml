@@ -1,0 +1,27 @@
+services:
+  # Backend API Service
+  - type: web
+    name: darktechvision-api
+    runtime: python
+    repo: https://github.com/YOUR_USERNAME/DarkTechVision-backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app -k uvicorn.workers.UvicornWorker
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+
+  # Frontend Static Service
+  - type: web
+    name: darktechvision-frontend
+    runtime: static
+    repo: https://github.com/YOUR_USERNAME/Frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://darktechvision-api.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://darktechvision-api.onrender.com/api/$1
